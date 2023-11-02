@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hado.helloworld.components.ButtonWithIcon
+import com.hado.helloworld.components.CityApp
 import com.hado.helloworld.components.CornerCutShapeButton
 import com.hado.helloworld.components.EditTextExample
 import com.hado.helloworld.components.ElevatedButtonExample
@@ -45,6 +46,7 @@ class MainActivity : ComponentActivity() {
                             .wrapContentSize(Alignment.Center),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        // Basic components
                         Greeting("Android 132")
                         SampleButton()
                         EditTextExample()
@@ -54,6 +56,9 @@ class MainActivity : ComponentActivity() {
                         RoundCornerShapeButton()
                         ElevatedButtonExample()
                         ImageViewExample()
+
+                        // List view components
+                        CityApp()
                     }
                 }
             }

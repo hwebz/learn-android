@@ -8,4 +8,11 @@
     <string name="rounded">Rounded</string>
     <string name="elevated">Elevated</string>
     <string name="image">Image</string>
+
+    <string name="spain">Spain</string>
+    <string name="new_york">New York</string>
+    <string name="singapore">Singapore</string>
+    <string name="switzerland">Switzerland</string>
+    <string name="tokyo">Tokyo</string>
+    <string name="paris">Paris</string>
 </resources>
