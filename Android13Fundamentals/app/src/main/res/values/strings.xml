@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">HelloWorld</string>
+    <string name="click_me">Click Me</string>
+    <string name="sample">Edit Template</string>
+    <string name="shop">Shop</string>
+    <string name="buy">Buy</string>
+    <string name="cornerButton">Corner Button</string>
+    <string name="rounded">Rounded</string>
+    <string name="elevated">Elevated</string>
+    <string name="image">Image</string>
+</resources>
