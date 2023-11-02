@@ -31,6 +31,7 @@ import com.hado.helloworld.components.ElevatedButtonExample
 import com.hado.helloworld.components.ImageViewExample
 import com.hado.helloworld.components.NotOutlinedEditTextExample
 import com.hado.helloworld.components.RoundCornerShapeButton
+import com.hado.helloworld.pagerexample.CityTabCarousel
 import com.hado.helloworld.ui.theme.HelloWorldTheme
 
 class MainActivity : ComponentActivity() {
@@ -47,18 +48,21 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         // Basic components
-                        Greeting("Android 132")
-                        SampleButton()
-                        EditTextExample()
-                        NotOutlinedEditTextExample()
-                        ButtonWithIcon()
-                        CornerCutShapeButton()
-                        RoundCornerShapeButton()
-                        ElevatedButtonExample()
-                        ImageViewExample()
+//                        Greeting("Android 132")
+//                        SampleButton()
+//                        EditTextExample()
+//                        NotOutlinedEditTextExample()
+//                        ButtonWithIcon()
+//                        CornerCutShapeButton()
+//                        RoundCornerShapeButton()
+//                        ElevatedButtonExample()
+//                        ImageViewExample()
 
                         // List view components
-                        CityApp()
+//                        CityApp()
+
+                        // Pager
+                        CityTabCarousel()
                     }
                 }
             }
