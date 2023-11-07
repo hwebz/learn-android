@@ -23,6 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hado.helloworld.circularexample.CircleProgressIndicatorExample
+import com.hado.helloworld.collapsingtoolbar.CollapsingToolbarExample
 import com.hado.helloworld.components.ButtonWithIcon
 import com.hado.helloworld.components.CityApp
 import com.hado.helloworld.components.CornerCutShapeButton
@@ -62,7 +64,13 @@ class MainActivity : ComponentActivity() {
 //                        CityApp()
 
                         // Pager
-                        CityTabCarousel()
+//                        CityTabCarousel()
+
+                        // Collapsing Toolbar
+//                        CollapsingToolbarExample()
+                        
+                        // Drawing
+                        CircleProgressIndicatorExample(tracker = 20f, progress = 8.9f)
                     }
                 }
             }
