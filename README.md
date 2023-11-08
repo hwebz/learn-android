@@ -20,6 +20,26 @@ Material Source: [Morden Android 13 Development Cookbook](https://github.com/Pac
 
 #### Screenshots
 <div class="flex">
-    <img src="./screenshots/android13fundamentals.png" width="200" />
-    <img src="./screenshots/android13fundamentals-1.png" width="200" />
+    <img src="./screenshots/basic-components.png" width="200" />
+    <img src="./screenshots/city-app.png" width="200" />
+    <img src="./screenshots/city-carousel.png" width="200" />
+    <img src="./screenshots/city-details.png" width="200" />
+    <img src="./screenshots/circle.png" width="200" />
+</div>
+
+### Simple Weather App
+> /WeatherApp
+
+#### Screenshots
+<div class="flex">
+    <img src="./screenshots/weather-app.png" width="200" />=
+</div>
+
+### Simple Card
+Material Source: [Android Jetpack Compose - Build Android Native UIs Fast](https://github.com/PacktPublishing/Android-Jetpack-Compose---Build-Android-Native-UI-s-Fast)
+> /SimpleCard
+
+#### Screenshots
+<div class="flex">
+    <img src="./screenshots/simple-card.png" width="200" />=
 </div>
