@@ -6,9 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,8 +37,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hado.simplecard.ui.theme.SimpleCardTheme
@@ -131,9 +135,10 @@ private fun Content() {
                 .padding(3.dp)
                 .fillMaxSize(),
             shape = RoundedCornerShape(CornerSize(6.dp)),
-            border = BorderStroke(width = 2.dp, color = Color.LightGray)
+            border = BorderStroke(width = 2.dp, color = Color.LightGray),
+            color = Color.White
         ) {
-            Portfolio(data = listOf<String>("Project 1", "Project 2", "Project 3"))
+            Portfolio(data = listOf<String>("Project 1", "Project 2", "Project 3", "Project 4", "Project 5", "Project 6"))
         }
     }
 }
@@ -142,7 +147,39 @@ private fun Content() {
 private fun Portfolio(data: List<String>) {
     LazyColumn {
         items(data) { item ->
-            Text(item)
+            Card(
+                modifier = Modifier
+                    .padding(13.dp)
+                    .fillMaxWidth(),
+                shape = RectangleShape,
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 2.dp
+                ),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                )
+            ) {
+                Row(
+                    modifier = Modifier
+//                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(16.dp)
+                ) {
+                    CreateImageProfile(modifier = Modifier.size(100.dp))
+                    Column(
+                        modifier = Modifier.padding(7.dp)
+                            .align(alignment = Alignment.CenterVertically)
+                    ) {
+                        Text(
+                            text = item,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "A great project",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -172,20 +209,18 @@ private fun CreateInfo() {
 }
 
 @Composable
-private fun CreateImageProfile(modifier: Modifier = Modifier) {
+private fun CreateImageProfile(modifier: Modifier = Modifier.size(150.dp)) {
     Surface(
-        modifier = Modifier
-            .size(150.dp)
+        modifier = modifier
             .padding(5.dp),
         shape = CircleShape,
-        border = BorderStroke(0.5.dp, Color.LightGray),
+        border = BorderStroke(0.5.dp, Color.Blue),
         shadowElevation = 4.dp,
         //                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
     ) {
         Image(
             painter = painterResource(id = R.drawable.avatar),
             contentDescription = null,
-            modifier = Modifier.size(135.dp),
             contentScale = ContentScale.Crop
         )
     }
