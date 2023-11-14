@@ -56,3 +56,13 @@ Video Tutorial: [UI Lover Youtube](https://www.youtube.com/watch?v=g3xWo0cLszE)
     <img src="./screenshots/user-dashboard-4.png" width="200" />
     <img src="./screenshots/user-dashboard-5.png" width="200" />
 </div>
+
+### Second Weather App
+Video Tutorial: [UI Lover Youtube](https://www.youtube.com/watch?v=z72ChtkbnfA&t=2028s)
+> /SecondWeatherApp
+
+#### Screenshots
+<div class="flex">
+    <img src="./screenshots/second-weather-app.png" width="200" />
+    <img src="./screenshots/second-weather-app-2.png" width="200" />
+</div>
