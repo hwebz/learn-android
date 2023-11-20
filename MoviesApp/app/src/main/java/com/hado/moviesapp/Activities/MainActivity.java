@@ -1,5 +1,8 @@
 package com.hado.moviesapp.Activities;
 
+import static com.hado.moviesapp.Utils.DataUtils.readStreamText;
+
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,8 +11,10 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -25,20 +30,23 @@ import com.google.gson.reflect.TypeToken;
 import com.hado.moviesapp.Adapters.CategoryListAdapter;
 import com.hado.moviesapp.Adapters.FilmListAdapter;
 import com.hado.moviesapp.Adapters.SliderAdapter;
+import com.hado.moviesapp.Domains.Endpoints;
 import com.hado.moviesapp.Domains.Films;
 import com.hado.moviesapp.Domains.Genre;
 import com.hado.moviesapp.Domains.Genres;
 import com.hado.moviesapp.Domains.SliderItem;
 import com.hado.moviesapp.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
-final class API_ENDPOINTS {
-    public static String BEST_MOVIES = "https://moviesapi.ir/api/v1/movies?page=1";
-    public static String UPCOMING_MOVIES = "https://moviesapi.ir/api/v1/movies?page=2";
-    public static String CATEGORIES = "https://moviesapi.ir/api/v1/genres";
-}
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
@@ -62,51 +70,64 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendRequestBestMovies() {
-        bRequestQueue = Volley.newRequestQueue(this);
+//        bRequestQueue = Volley.newRequestQueue(this);
         bLoading.setVisibility(View.VISIBLE);
-        bStringRequest = new StringRequest(Request.Method.GET, API_ENDPOINTS.BEST_MOVIES, response -> {
+//        bStringRequest = new StringRequest(Request.Method.GET, Endpoints.BEST_MOVIES, response -> {
             Gson gson = new Gson();
             bLoading.setVisibility(View.GONE);
-            Films films = gson.fromJson(response, Films.class);
+            // From res/raw/best_movies.json
+            Films films = gson.fromJson(readStreamText(getResources().openRawResource(R.raw.best_movies)), Films.class);
+            // From API
+            // Films films = gson.fromJson(response, Films.class);
             bestMoviesAdapter = new FilmListAdapter(films);
             bestMoviesRecycleView.setAdapter(bestMoviesAdapter);
-        }, error -> {
-            bLoading.setVisibility(View.GONE);
-            Log.i("MoviesApp", "sendRequestBestMovies - onErrorResponse: " + error.toString());
-        });
-        bRequestQueue.add(bStringRequest);
+//        }, error -> {
+//            bLoading.setVisibility(View.GONE);
+//            Log.i("MoviesApp", "sendRequestBestMovies - onErrorResponse: " + error.toString());
+//        });
+//        bRequestQueue.add(bStringRequest);
     }
 
     private void sendRequestCategories() {
-        cRequestQueue = Volley.newRequestQueue(this);
+//        cRequestQueue = Volley.newRequestQueue(this);
         cLoading.setVisibility(View.VISIBLE);
-        cStringRequest = new StringRequest(Request.Method.GET, API_ENDPOINTS.CATEGORIES, response -> {
+//        cStringRequest = new StringRequest(Request.Method.GET, Endpoints.CATEGORIES, response -> {
             Gson gson = new Gson();
             cLoading.setVisibility(View.GONE);
-            Genres genres = new Genres(gson.fromJson(response, new TypeToken<ArrayList<Genre>>(){}.getType()));
+            // From res/raw/best_movies.json
+            List<Genre> genresList = gson.fromJson(
+                    readStreamText(getResources().openRawResource(R.raw.categories)),
+                    new TypeToken<ArrayList<Genre>>(){}.getType()
+            );
+            Genres genres = new Genres(genresList);
+            // From API
+            // Genres genres = new Genres(gson.fromJson(response, new TypeToken<ArrayList<Genre>>(){}.getType()));
             categoryAdapter = new CategoryListAdapter(genres);
             categoryRecycleView.setAdapter(categoryAdapter);
-        }, error -> {
-            cLoading.setVisibility(View.GONE);
-            Log.i("MoviesApp", "sendRequestCategories - onErrorResponse: " + error.toString());
-        });
-        cRequestQueue.add(cStringRequest);
+//        }, error -> {
+//            cLoading.setVisibility(View.GONE);
+//            Log.i("MoviesApp", "sendRequestCategories - onErrorResponse: " + error.toString());
+//        });
+//        cRequestQueue.add(cStringRequest);
     }
 
     private void sendRequestUpcomingMovies() {
-        uRequestQueue = Volley.newRequestQueue(this);
+//        uRequestQueue = Volley.newRequestQueue(this);
         uLoading.setVisibility(View.VISIBLE);
-        uStringRequest = new StringRequest(Request.Method.GET, API_ENDPOINTS.UPCOMING_MOVIES, response -> {
+//        uStringRequest = new StringRequest(Request.Method.GET, Endpoints.UPCOMING_MOVIES, response -> {
             Gson gson = new Gson();
             uLoading.setVisibility(View.GONE);
-            Films films = gson.fromJson(response, Films.class);
+            // From res/raw/best_movies.json
+            Films films = gson.fromJson(readStreamText(getResources().openRawResource(R.raw.upcoming_movies)), Films.class);
+            // From API
+            // Films films = gson.fromJson(response, Films.class);
             upcomingMoviesAdapter = new FilmListAdapter(films);
             upcomingMoviesRecycleView.setAdapter(upcomingMoviesAdapter);
-        }, error -> {
-            uLoading.setVisibility(View.GONE);
-            Log.i("MoviesApp", "sendRequestUpcomingMovies - onErrorResponse: " + error.toString());
-        });
-        uRequestQueue.add(uStringRequest);
+//        }, error -> {
+//            uLoading.setVisibility(View.GONE);
+//            Log.i("MoviesApp", "sendRequestUpcomingMovies - onErrorResponse: " + error.toString());
+//        });
+//        uRequestQueue.add(uStringRequest);
     }
 
     private void banners() {

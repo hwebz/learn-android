@@ -1,6 +1,7 @@
 
 package com.hado.moviesapp.Domains;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
@@ -14,6 +15,13 @@ public class Films {
     @SerializedName("metadata")
     @Expose
     private Metadata metadata;
+
+    public Films(List<Film> data) {
+        this.data = data;
+
+        mockFilms = new ArrayList<Film>(
+        );
+    }
 
     public List<Film> getData() {
         return data;
@@ -30,5 +38,7 @@ public class Films {
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }
+
+    public static List<Film> mockFilms;
 
 }

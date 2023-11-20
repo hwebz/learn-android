@@ -75,3 +75,16 @@ Video Tutorial: [UI Lover Youtube](https://youtu.be/4tVm0fsj5PU?si=wQ9uDJzc2dwzH
 <div class="flex">
     <img src="./screenshots/jetpack-compose-login-form.png" width="200" />
 </div>
+
+### Movies App (3rd API / static JSONs)
+Video Tutorial: [UI Lover Youtube](https://www.youtube.com/watch?v=s57FYRFh_Os)
+> /MoviesApp
+
+#### Screenshots
+<div class="flex">
+    <img src="./screenshots/movies-app-4.png" width="200" />
+    <img src="./screenshots/movies-app-5.png" width="200" />
+    <img src="./screenshots/movies-app.png" width="200" />
+    <img src="./screenshots/movies-app-2.png" width="200" />
+    <img src="./screenshots/movies-app-3.png" width="200" />
+</div>
