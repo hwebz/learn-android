@@ -21,14 +21,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.hado.moviesapp.Adapters.CategoryListAdapter;
 import com.hado.moviesapp.Adapters.FilmListAdapter;
 import com.hado.moviesapp.Adapters.SliderAdapter;
 import com.hado.moviesapp.Domains.Films;
+import com.hado.moviesapp.Domains.Genre;
+import com.hado.moviesapp.Domains.Genres;
 import com.hado.moviesapp.Domains.SliderItem;
 import com.hado.moviesapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+final class API_ENDPOINTS {
+    public static String BEST_MOVIES = "https://moviesapi.ir/api/v1/movies?page=1";
+    public static String UPCOMING_MOVIES = "https://moviesapi.ir/api/v1/movies?page=2";
+    public static String CATEGORIES = "https://moviesapi.ir/api/v1/genres";
+}
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
@@ -36,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView.Adapter bestMoviesAdapter, categoryAdapter, upcomingMoviesAdapter;
     private RecyclerView bestMoviesRecycleView, categoryRecycleView, upcomingMoviesRecycleView;
-    private RequestQueue mRequestQueue;
+    private RequestQueue bRequestQueue, uRequestQueue, cRequestQueue;
     private StringRequest bStringRequest, cStringRequest, uStringRequest;
     private ProgressBar bLoading, cLoading, uLoading;
     @Override
@@ -46,13 +56,15 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
         banners();
-        sendRequest();
+        sendRequestBestMovies();
+        sendRequestCategories();
+        sendRequestUpcomingMovies();
     }
 
-    private void sendRequest() {
-        mRequestQueue = Volley.newRequestQueue(this);
+    private void sendRequestBestMovies() {
+        bRequestQueue = Volley.newRequestQueue(this);
         bLoading.setVisibility(View.VISIBLE);
-        bStringRequest = new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=1", (Response.Listener<String>) response -> {
+        bStringRequest = new StringRequest(Request.Method.GET, API_ENDPOINTS.BEST_MOVIES, response -> {
             Gson gson = new Gson();
             bLoading.setVisibility(View.GONE);
             Films films = gson.fromJson(response, Films.class);
@@ -60,9 +72,41 @@ public class MainActivity extends AppCompatActivity {
             bestMoviesRecycleView.setAdapter(bestMoviesAdapter);
         }, error -> {
             bLoading.setVisibility(View.GONE);
-            Log.i("MoviesApp", "onErrorResponse: " + error.toString());
+            Log.i("MoviesApp", "sendRequestBestMovies - onErrorResponse: " + error.toString());
         });
-        mRequestQueue.add(bStringRequest);
+        bRequestQueue.add(bStringRequest);
+    }
+
+    private void sendRequestCategories() {
+        cRequestQueue = Volley.newRequestQueue(this);
+        cLoading.setVisibility(View.VISIBLE);
+        cStringRequest = new StringRequest(Request.Method.GET, API_ENDPOINTS.CATEGORIES, response -> {
+            Gson gson = new Gson();
+            cLoading.setVisibility(View.GONE);
+            Genres genres = new Genres(gson.fromJson(response, new TypeToken<ArrayList<Genre>>(){}.getType()));
+            categoryAdapter = new CategoryListAdapter(genres);
+            categoryRecycleView.setAdapter(categoryAdapter);
+        }, error -> {
+            cLoading.setVisibility(View.GONE);
+            Log.i("MoviesApp", "sendRequestCategories - onErrorResponse: " + error.toString());
+        });
+        cRequestQueue.add(cStringRequest);
+    }
+
+    private void sendRequestUpcomingMovies() {
+        uRequestQueue = Volley.newRequestQueue(this);
+        uLoading.setVisibility(View.VISIBLE);
+        uStringRequest = new StringRequest(Request.Method.GET, API_ENDPOINTS.UPCOMING_MOVIES, response -> {
+            Gson gson = new Gson();
+            uLoading.setVisibility(View.GONE);
+            Films films = gson.fromJson(response, Films.class);
+            upcomingMoviesAdapter = new FilmListAdapter(films);
+            upcomingMoviesRecycleView.setAdapter(upcomingMoviesAdapter);
+        }, error -> {
+            uLoading.setVisibility(View.GONE);
+            Log.i("MoviesApp", "sendRequestUpcomingMovies - onErrorResponse: " + error.toString());
+        });
+        uRequestQueue.add(uStringRequest);
     }
 
     private void banners() {
