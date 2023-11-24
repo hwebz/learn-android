@@ -88,3 +88,15 @@ Video Tutorial: [UI Lover Youtube](https://www.youtube.com/watch?v=s57FYRFh_Os)
     <img src="./screenshots/movies-app-2.png" width="200" />
     <img src="./screenshots/movies-app-3.png" width="200" />
 </div>
+
+### Ecommerce Healthy Store App
+Video Tutorial: [UI Lover Youtube](https://www.youtube.com/watch?v=TBTZ2jywr0I)
+> /EcommerceHealthyApp
+
+#### Screenshots
+<div class="flex">
+    <img src="./screenshots/healthy-store.png" width="200" />
+    <img src="./screenshots/healthy-store-2.png" width="200" />
+    <img src="./screenshots/healthy-store-3.png" width="200" />
+</div>
+
