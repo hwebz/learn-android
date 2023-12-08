@@ -1,6 +1,11 @@
 package com.hado.jetpackkotlinfundamentals
 
-data class Restaurant(val id: Int, val title: String, val description: String)
+data class Restaurant(
+    val id: Int,
+    val title: String,
+    val description: String,
+    var isFavorite: Boolean = false
+)
 
 val dummyRestaurants = listOf<Restaurant>(
     Restaurant(0, "Alfredo foods", "At Alfredo's description"),
