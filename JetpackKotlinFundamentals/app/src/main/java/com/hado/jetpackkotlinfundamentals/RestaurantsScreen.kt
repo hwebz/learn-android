@@ -21,9 +21,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,23 +51,35 @@ fun RestaurantScreen() {
 //    }
 
     val viewModel: RestaurantsViewModel = viewModel()
+    // when configuration changes (orientation change)
+    // we lost all of favorited items, we can use rememberSaveable
+    // or using ViewModel above
+//    val state: MutableState<List<Restaurant>> = remember {
+//        mutableStateOf(viewModel.getRestaurants())
+//    }
+    val state: MutableState<List<Restaurant>> = rememberSaveable {
+        mutableStateOf(viewModel.getRestaurants())
+    }
     LazyColumn(
         contentPadding = PaddingValues(
             vertical = 8.dp,
             horizontal = 8.dp
         )
     ) {
-        items(viewModel.getRestaurants()) { restaurant ->
-            RestaurantItem(item = restaurant)
+        items(state.value) { restaurant ->
+            RestaurantItem(item = restaurant) { id ->
+                val restaurants = state.value.toMutableList()
+                val itemIndex = restaurants.indexOfFirst { it.id == id }
+                val item = restaurants[itemIndex]
+                restaurants[itemIndex] = item.copy(isFavorite = !item.isFavorite)
+                state.value = restaurants
+            }
         }
     }
 }
 @Composable
-fun RestaurantItem(item: Restaurant) {
-    var favoriteState by remember {
-        mutableStateOf(false)
-    }
-    val icon = if (favoriteState)
+fun RestaurantItem(item: Restaurant, onClick: (id: Int) -> Unit) {
+    val icon = if (item.isFavorite)
         Icons.Filled.Favorite
     else
         Icons.Filled.FavoriteBorder
@@ -89,7 +103,7 @@ fun RestaurantItem(item: Restaurant) {
                 Modifier.weight(0.7f)
             )
             RestaurantIcon(icon, Modifier.weight(0.15f)) {
-                favoriteState = !favoriteState
+                onClick(item.id)
             }
         }
     }
