@@ -21,7 +21,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.InternalComposeApi
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.CoroutineScope
 
 @Preview(
     name = "Restaurant App",
@@ -60,6 +64,11 @@ fun RestaurantScreen() {
 //    val state: MutableState<List<Restaurant>> = rememberSaveable {
 //        mutableStateOf(viewModel.getRestaurants())
 //    }
+    // Prevent multiple redundant API calls due to re-composition
+//    LaunchedEffect(key1 = "request_restaurants") {
+//        viewModel.getRestaurants()
+//    }
+
     LazyColumn(
         contentPadding = PaddingValues(
             vertical = 8.dp,
