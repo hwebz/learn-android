@@ -3,11 +3,19 @@ package com.hado.jetpackkotlinfundamentals
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.Exception
 
 // The reason we need SavedStateHandle is when app running in background
 // but system will kill our process to save the memory
@@ -16,7 +24,12 @@ class RestaurantsViewModel(private val stateHandle: SavedStateHandle): ViewModel
     private var restInterface: RestaurantsApiService
 //    val state = mutableStateOf(dummyRestaurants.restoreSelections())
     val state = mutableStateOf(emptyList<Restaurant>())
-    private lateinit var restaurantsCall: Call<List<Restaurant>>
+//    private lateinit var restaurantsCall: Call<List<Restaurant>>
+    val job = Job()
+    private val scope = CoroutineScope(job + Dispatchers.IO)
+    private val errorHandler = CoroutineExceptionHandler { _, exception ->
+        exception.printStackTrace()
+    }
 
     init {
         val retrofit: Retrofit = Retrofit.Builder()
@@ -37,28 +50,56 @@ class RestaurantsViewModel(private val stateHandle: SavedStateHandle): ViewModel
 
         // .execute() -> synchronous
         // .enqueue() -> asynchronous -> recommended
-        restaurantsCall = restInterface.getRestaurants()
-        restaurantsCall.enqueue(
-            object: Callback<List<Restaurant>> {
-                override fun onResponse(
-                    call: Call<List<Restaurant>>,
-                    response: Response<List<Restaurant>>
-                ) {
-                    response.body()?.let { restaurants ->
-                        state.value = restaurants.restoreSelections()
-                    }
-                }
 
-                override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
-                    t.printStackTrace()
-                }
-            }
-        )
+//        restaurantsCall = restInterface.getRestaurants()
+//        restaurantsCall.enqueue(
+//            object: Callback<List<Restaurant>> {
+//                override fun onResponse(
+//                    call: Call<List<Restaurant>>,
+//                    response: Response<List<Restaurant>>
+//                ) {
+//                    response.body()?.let { restaurants ->
+//                        state.value = restaurants.restoreSelections()
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<List<Restaurant>>, t: Throwable) {
+//                    t.printStackTrace()
+//                }
+//            }
+//        )
+
+        // Using coroutines instead of default Retrofit Call and Callback
+        // Custom scope here you need to manually cancel the coroutines
+//        scope.launch {
+        // pre-defined scope will automatically take care of cancelling all of the coroutines
+        // launched within its parent when instance has been cleared or destroyed
+//        viewModelScope.launch(Dispatchers.IO + errorHandler) {
+            viewModelScope.launch(errorHandler) {
+            // errorHandler above handling exception for coroutines instead of nested try catch below
+//            try {
+                // val restaurants = restInterface.getRestaurants()
+                val restaurants = getRemoteRestaurants()
+//                withContext(Dispatchers.Main) {
+                    state.value = restaurants.restoreSelections()
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+        }
+    }
+
+    private suspend fun getRemoteRestaurants(): List<Restaurant> {
+        return withContext(Dispatchers.IO) {
+            restInterface.getRestaurants()
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
-        restaurantsCall.cancel()
+//        restaurantsCall.cancel()
+        // No need to cancel custom coroutines here because we used viewModelScope
+        // job.cancel()
     }
 
     fun toggleFavorite(id: Int) {
