@@ -47,7 +47,7 @@ import kotlinx.coroutines.CoroutineScope
     showSystemUi = true
 )
 @Composable
-fun RestaurantScreen() {
+fun RestaurantScreen(onItemClick: (id: Int) -> Unit = {}) {
 //    Column(Modifier.verticalScroll(rememberScrollState())) {
 //        dummyRestaurants.forEach { restaurant ->
 //            RestaurantItem(restaurant)
@@ -77,14 +77,20 @@ fun RestaurantScreen() {
     ) {
 //        items(state.value) { restaurant ->
         items(viewModel.state.value) { restaurant ->
-            RestaurantItem(item = restaurant) { id ->
-                viewModel.toggleFavorite(id)
-            }
+            RestaurantItem(
+                item = restaurant,
+                onFavoriteClick = { id -> viewModel.toggleFavorite(id) },
+                onItemClick = { id -> onItemClick(id) }
+            )
         }
     }
 }
 @Composable
-fun RestaurantItem(item: Restaurant, onClick: (id: Int) -> Unit) {
+fun RestaurantItem(
+    item: Restaurant,
+    onFavoriteClick: (id: Int) -> Unit,
+    onItemClick: (id: Int) -> Unit
+) {
     val icon = if (item.isFavorite)
         Icons.Filled.Favorite
     else
@@ -93,7 +99,11 @@ fun RestaurantItem(item: Restaurant, onClick: (id: Int) -> Unit) {
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable {
+                onItemClick(item.id)
+            }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -109,7 +119,7 @@ fun RestaurantItem(item: Restaurant, onClick: (id: Int) -> Unit) {
                 Modifier.weight(0.7f)
             )
             RestaurantIcon(icon, Modifier.weight(0.15f)) {
-                onClick(item.id)
+                onFavoriteClick(item.id)
             }
         }
     }
@@ -133,8 +143,13 @@ fun RestaurantIcon(
 }
 
 @Composable
-fun RestaurantDetails(title: String, description: String, modifier: Modifier) {
-    Column(modifier = modifier) {
+fun RestaurantDetails(
+    title: String,
+    description: String,
+    modifier: Modifier,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start
+) {
+    Column(modifier = modifier, horizontalAlignment = horizontalAlignment) {
         Text(title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
         CompositionLocalProvider(LocalContentColor provides LocalContentColor.current.copy(alpha = 0.8f)) {
             Text(description, style = MaterialTheme.typography.bodyMedium)
