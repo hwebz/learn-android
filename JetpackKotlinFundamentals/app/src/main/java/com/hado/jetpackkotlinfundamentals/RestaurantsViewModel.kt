@@ -17,6 +17,8 @@ import kotlinx.coroutines.launch
 //class RestaurantsViewModel(private val stateHandle: SavedStateHandle): ViewModel() {
 class RestaurantsViewModel(private val stateHandle: SavedStateHandle): ViewModel() {
     private val respository = RestaurantsRepository()
+    private val getInitialRestaurantsUseCase = GetInitialRestaurantsUseCase()
+    private val toggleRestaurantsUseCase = ToggleRestaurantUseCase()
 //    private var restInterface: RestaurantsApiService
 //    private var restaurantsDao = RestaurantsDb.getDaoInstance(RestaurantsApplication.getAppContext())
 //    val state = mutableStateOf(dummyRestaurants.restoreSelections())
@@ -94,7 +96,8 @@ class RestaurantsViewModel(private val stateHandle: SavedStateHandle): ViewModel
 //                withContext(Dispatchers.Main) {
 //                    state.value = restaurants.restoreSelections()
 //                state.value = getAllRestaurants()
-                val restaurants =  respository.getAllRestaurants()
+//                val restaurants =  respository.getAllRestaurants()
+                val restaurants = getInitialRestaurantsUseCase()
                 _state.value = _state.value.copy(
                     restaurants = restaurants,
                     isLoading = false
@@ -123,7 +126,8 @@ class RestaurantsViewModel(private val stateHandle: SavedStateHandle): ViewModel
 //        state.value = restaurants
         viewModelScope.launch(errorHandler) {
 //            val updatedRestaurants = toggleFavoriteRestaurant(id, item.isFavorite)
-            val updatedRestaurants = respository.toggleFavoriteRestaurant(id, oldValue)
+//            val updatedRestaurants = respository.toggleFavoriteRestaurant(id, oldValue)
+            val updatedRestaurants = toggleRestaurantsUseCase(id, oldValue)
             _state.value = _state.value.copy(
                 restaurants = updatedRestaurants
             )

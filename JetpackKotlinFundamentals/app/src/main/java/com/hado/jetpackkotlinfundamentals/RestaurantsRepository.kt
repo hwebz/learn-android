@@ -28,7 +28,8 @@ class RestaurantsRepository {
         )
     }
 
-    suspend fun getAllRestaurants(): List<Restaurant> {
+//    suspend fun getAllRestaurants(): List<Restaurant> {
+    suspend fun loadRestaurants() {
         return withContext(Dispatchers.IO) {
             try {
                 refreshCache()
@@ -44,18 +45,28 @@ class RestaurantsRepository {
                     else -> throw e
                 }
             }
-            return@withContext restaurantsDao.getAll()
+//            return@withContext restaurantsDao.getAll()
+//                .sortedBy { it.title }
         }
     }
 
-    suspend fun toggleFavoriteRestaurant(id: Int, oldValue: Boolean) =
+//    suspend fun toggleFavoriteRestaurant(id: Int, oldValue: Boolean) =
+    suspend fun toggleFavoriteRestaurant(id: Int, value: Boolean) =
         withContext(Dispatchers.IO) {
             restaurantsDao.update(
                 PartialRestaurant(
                     id = id,
-                    isFavorite = !oldValue
+//                    isFavorite = !oldValue
+                    isFavorite = value
                 )
             )
-            restaurantsDao.getAll()
+//            restaurantsDao.getAll()
+
         }
+
+    suspend fun getRestaurants(): List<Restaurant> {
+        return withContext(Dispatchers.IO) {
+            return@withContext restaurantsDao.getAll()
+        }
+    }
 }
