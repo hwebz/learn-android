@@ -10,11 +10,11 @@ interface RestaurantsApiService {
     @GET("restaurants.json")
     // fun getRestaurants(): Call<List<Restaurant>>
     // suspend supports coroutines that not blocking main thread UI
-    suspend fun getRestaurants(): List<Restaurant>
+    suspend fun getRestaurants(): List<RemoteRestaurant>
 
 //    @POST("user/edit")
 //    fun updateUser(@Field("first_name") firstName: String): Call<User>
 
     @GET("restaurants.json?orderBy=\"r_id\"")
-    suspend fun getRestaurant(@Query("equalTo") id: Int): Map<String, Restaurant>
+    suspend fun getRestaurant(@Query("equalTo") id: Int): Map<String, RemoteRestaurant>
 }
