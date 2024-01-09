@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,7 +12,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.hado.jetpackkotlinfundamentals.restaurants.presentation.details.RestaurantDetailsScreen
+import com.hado.jetpackkotlinfundamentals.restaurants.presentation.details.RestaurantDetailsViewModel
 import com.hado.jetpackkotlinfundamentals.restaurants.presentation.list.RestaurantScreen
+import com.hado.jetpackkotlinfundamentals.restaurants.presentation.list.RestaurantsViewModel
 import com.hado.jetpackkotlinfundamentals.ui.theme.JetpackKotlinFundamentalsTheme
 
 class MainActivity : ComponentActivity() {
@@ -35,9 +38,16 @@ private fun RestaurantApp() {
         composable(
             route = "restaurants"
         ) {
-            RestaurantScreen() {id ->
-                navController.navigate("restaurants/$id")
-            }
+            var viewModel: RestaurantsViewModel = viewModel()
+            RestaurantScreen(
+                state = viewModel.state.value,
+                onItemClick = { id ->
+                    navController.navigate("restaurants/$id")
+                },
+                onFavoriteClick = { id, oldValue ->
+                    viewModel.toggleFavorite(id, oldValue)
+                }
+            )
         }
         composable(
             route = "restaurants/{restaurant_id}",
@@ -55,8 +65,9 @@ private fun RestaurantApp() {
                 }
             )
         ) { navStackEntry ->
+            val viewModel: RestaurantDetailsViewModel = viewModel()
             val id = navStackEntry.arguments?.getInt("restaurant_id")
-            RestaurantDetailsScreen()
+            RestaurantDetailsScreen(item = viewModel.state.value)
         }
     }
 }

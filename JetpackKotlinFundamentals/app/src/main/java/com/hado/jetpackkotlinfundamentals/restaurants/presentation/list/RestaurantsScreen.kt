@@ -38,14 +38,18 @@ import com.hado.jetpackkotlinfundamentals.restaurants.domain.Restaurant
     showSystemUi = true
 )
 @Composable
-fun RestaurantScreen(onItemClick: (id: Int) -> Unit = {}) {
+fun RestaurantScreen(
+    state: RestaurantsScreenState,
+    onItemClick: (id: Int) -> Unit = {},
+    onFavoriteClick: (id: Int, oldValue: Boolean) -> Unit
+) {
 //    Column(Modifier.verticalScroll(rememberScrollState())) {
 //        dummyRestaurants.forEach { restaurant ->
 //            RestaurantItem(restaurant)
 //        }
 //    }
 
-    val viewModel: RestaurantsViewModel = viewModel()
+//    val viewModel: RestaurantsViewModel = viewModel()
     // when configuration changes (orientation change)
     // we lost all of favorited items, we can use rememberSaveable
     // or using ViewModel above
@@ -62,7 +66,7 @@ fun RestaurantScreen(onItemClick: (id: Int) -> Unit = {}) {
 
 //    val restaurants = viewModel.state.value
 //    val isLoading = restaurants.isEmpty()
-    val state = viewModel.state.value
+//    val state = viewModel.state.value
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -77,7 +81,10 @@ fun RestaurantScreen(onItemClick: (id: Int) -> Unit = {}) {
             items(state.restaurants) { restaurant ->
                 RestaurantItem(
                     item = restaurant,
-                    onFavoriteClick = { id, oldValue -> viewModel.toggleFavorite(id, oldValue) },
+                    onFavoriteClick = { id, oldValue ->
+//                        viewModel.toggleFavorite(id, oldValue)
+                          onFavoriteClick(id, oldValue)
+                    },
                     onItemClick = { id -> onItemClick(id) }
                 )
             }
