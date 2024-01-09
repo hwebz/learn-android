@@ -1,10 +1,13 @@
-package com.hado.jetpackkotlinfundamentals
+package com.hado.jetpackkotlinfundamentals.restaurants.presentation.list
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hado.jetpackkotlinfundamentals.restaurants.data.RestaurantsRepository
+import com.hado.jetpackkotlinfundamentals.restaurants.domain.GetInitialRestaurantsUseCase
+import com.hado.jetpackkotlinfundamentals.restaurants.domain.ToggleRestaurantUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

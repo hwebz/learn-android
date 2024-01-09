@@ -1,5 +1,11 @@
-package com.hado.jetpackkotlinfundamentals
+package com.hado.jetpackkotlinfundamentals.restaurants.data
 
+import com.hado.jetpackkotlinfundamentals.restaurants.domain.Restaurant
+import com.hado.jetpackkotlinfundamentals.RestaurantsApplication
+import com.hado.jetpackkotlinfundamentals.restaurants.data.local.LocalRestaurant
+import com.hado.jetpackkotlinfundamentals.restaurants.data.local.PartialLocalRestaurant
+import com.hado.jetpackkotlinfundamentals.restaurants.data.local.RestaurantsDb
+import com.hado.jetpackkotlinfundamentals.restaurants.data.remote.RestaurantsApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException

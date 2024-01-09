@@ -1,4 +1,4 @@
-package com.hado.jetpackkotlinfundamentals
+package com.hado.jetpackkotlinfundamentals.restaurants.data.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

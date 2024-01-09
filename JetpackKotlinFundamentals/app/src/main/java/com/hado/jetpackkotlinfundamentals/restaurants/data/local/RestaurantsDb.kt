@@ -1,4 +1,4 @@
-package com.hado.jetpackkotlinfundamentals
+package com.hado.jetpackkotlinfundamentals.restaurants.data.local
 
 import android.content.Context
 import androidx.room.Database

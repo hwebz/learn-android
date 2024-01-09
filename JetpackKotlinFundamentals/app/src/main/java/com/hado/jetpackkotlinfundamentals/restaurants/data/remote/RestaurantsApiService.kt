@@ -1,9 +1,7 @@
-package com.hado.jetpackkotlinfundamentals
+package com.hado.jetpackkotlinfundamentals.restaurants.data.remote
 
-import retrofit2.Call
-import retrofit2.http.Field
+import com.hado.jetpackkotlinfundamentals.restaurants.data.remote.RemoteRestaurant
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface RestaurantsApiService {

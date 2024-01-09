@@ -1,4 +1,4 @@
-package com.hado.jetpackkotlinfundamentals
+package com.hado.jetpackkotlinfundamentals.restaurants.data.remote
 
 import com.google.gson.annotations.SerializedName
 

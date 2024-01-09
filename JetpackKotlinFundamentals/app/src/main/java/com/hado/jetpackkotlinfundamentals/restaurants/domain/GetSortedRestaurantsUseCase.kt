@@ -1,4 +1,6 @@
-package com.hado.jetpackkotlinfundamentals
+package com.hado.jetpackkotlinfundamentals.restaurants.domain
+
+import com.hado.jetpackkotlinfundamentals.restaurants.data.RestaurantsRepository
 
 class GetSortedRestaurantsUseCase {
     private val repository: RestaurantsRepository = RestaurantsRepository()

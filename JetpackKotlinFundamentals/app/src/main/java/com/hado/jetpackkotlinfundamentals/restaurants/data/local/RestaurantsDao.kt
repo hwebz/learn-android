@@ -1,10 +1,12 @@
-package com.hado.jetpackkotlinfundamentals
+package com.hado.jetpackkotlinfundamentals.restaurants.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.hado.jetpackkotlinfundamentals.restaurants.data.local.LocalRestaurant
+import com.hado.jetpackkotlinfundamentals.restaurants.data.local.PartialLocalRestaurant
 
 @Dao
 interface RestaurantsDao {

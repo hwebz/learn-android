@@ -1,10 +1,11 @@
-package com.hado.jetpackkotlinfundamentals
+package com.hado.jetpackkotlinfundamentals.restaurants.presentation.details
 
-import android.widget.TextView.SavedState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hado.jetpackkotlinfundamentals.restaurants.data.remote.RestaurantsApiService
+import com.hado.jetpackkotlinfundamentals.restaurants.domain.Restaurant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
