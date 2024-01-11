@@ -100,3 +100,15 @@ Video Tutorial: [UI Lover Youtube](https://www.youtube.com/watch?v=TBTZ2jywr0I)
     <img src="./screenshots/healthy-store-3.png" width="200" />
 </div>
 
+### Ecommerce Healthy Store App
+Books: [Kickstart Modern Android Development with Jetpack and Kotlin](https://www.packtpub.com/product/kickstart-modern-android-development-with-jetpack-and-kotlin/9781801811071)
+SourceCode: [Kickstart Modern Android Development with Jetpack and Kotlin](https://github.com/PacktPublishing/Kickstart-Modern-Android-Development-with-Jetpack-and-Kotlin)
+> /https://github.com/PacktPublishing/Kickstart-Modern-Android-Development-with-Jetpack-and-Kotlin
+
+#### Screenshots
+<div class="flex">
+    <img src="./screenshots/restaurants-app.png" width="200" />
+    <img src="./screenshots/restaurants-app-1.png" width="200" />
+    <img src="./screenshots/restaurants-app-2.png" width="200" />
+</div>
+
