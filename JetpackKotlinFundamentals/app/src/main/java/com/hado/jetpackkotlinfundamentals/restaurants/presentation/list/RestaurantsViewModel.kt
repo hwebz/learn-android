@@ -6,9 +6,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hado.jetpackkotlinfundamentals.restaurants.data.RestaurantsRepository
+import com.hado.jetpackkotlinfundamentals.restaurants.data.di.MainDispatcher
 import com.hado.jetpackkotlinfundamentals.restaurants.domain.GetInitialRestaurantsUseCase
 import com.hado.jetpackkotlinfundamentals.restaurants.domain.ToggleRestaurantUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RestaurantsViewModel @Inject constructor(
     private val getInitialRestaurantsUseCase: GetInitialRestaurantsUseCase,
-    private val toggleRestaurantsUseCase: ToggleRestaurantUseCase
+    private val toggleRestaurantsUseCase: ToggleRestaurantUseCase,
+    @MainDispatcher private val dispatcher: CoroutineDispatcher
 ): ViewModel() {
 //    private val respository = RestaurantsRepository()
 //    private val getInitialRestaurantsUseCase = GetInitialRestaurantsUseCase()
@@ -97,7 +100,7 @@ class RestaurantsViewModel @Inject constructor(
         // pre-defined scope will automatically take care of cancelling all of the coroutines
         // launched within its parent when instance has been cleared or destroyed
 //        viewModelScope.launch(Dispatchers.IO + errorHandler) {
-            viewModelScope.launch(errorHandler) {
+            viewModelScope.launch(errorHandler + dispatcher) {
             // errorHandler above handling exception for coroutines instead of nested try catch below
 //            try {
                 // val restaurants = restInterface.getRestaurants()
@@ -133,7 +136,7 @@ class RestaurantsViewModel @Inject constructor(
 //        restaurants[itemIndex] = item.copy(isFavorite = !item.isFavorite)
 //        storeSelection(restaurants[itemIndex])
 //        state.value = restaurants
-        viewModelScope.launch(errorHandler) {
+        viewModelScope.launch(errorHandler + dispatcher) {
 //            val updatedRestaurants = toggleFavoriteRestaurant(id, item.isFavorite)
 //            val updatedRestaurants = respository.toggleFavoriteRestaurant(id, oldValue)
             val updatedRestaurants = toggleRestaurantsUseCase(id, oldValue)

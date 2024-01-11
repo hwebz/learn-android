@@ -2,11 +2,13 @@ package com.hado.jetpackkotlinfundamentals.restaurants.data
 
 import com.hado.jetpackkotlinfundamentals.restaurants.domain.Restaurant
 import com.hado.jetpackkotlinfundamentals.RestaurantsApplication
+import com.hado.jetpackkotlinfundamentals.restaurants.data.di.IoDispatcher
 import com.hado.jetpackkotlinfundamentals.restaurants.data.local.LocalRestaurant
 import com.hado.jetpackkotlinfundamentals.restaurants.data.local.PartialLocalRestaurant
 import com.hado.jetpackkotlinfundamentals.restaurants.data.local.RestaurantsDao
 import com.hado.jetpackkotlinfundamentals.restaurants.data.local.RestaurantsDb
 import com.hado.jetpackkotlinfundamentals.restaurants.data.remote.RestaurantsApiService
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -21,7 +23,8 @@ import javax.inject.Singleton
 @Singleton
 class RestaurantsRepository @Inject constructor(
     private val restInterface: RestaurantsApiService,
-    private val restaurantsDao: RestaurantsDao
+    private val restaurantsDao: RestaurantsDao,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
 //    private var restInterface: RestaurantsApiService = Retrofit.Builder()
 //        .addConverterFactory(GsonConverterFactory.create())
@@ -50,7 +53,7 @@ class RestaurantsRepository @Inject constructor(
 
 //    suspend fun getAllRestaurants(): List<Restaurant> {
     suspend fun loadRestaurants() {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
             try {
                 refreshCache()
             } catch (e: Exception) {
@@ -72,7 +75,7 @@ class RestaurantsRepository @Inject constructor(
 
 //    suspend fun toggleFavoriteRestaurant(id: Int, oldValue: Boolean) =
     suspend fun toggleFavoriteRestaurant(id: Int, value: Boolean) =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             restaurantsDao.update(
                 PartialLocalRestaurant(
                     id = id,
@@ -85,7 +88,7 @@ class RestaurantsRepository @Inject constructor(
         }
 
     suspend fun getRestaurants(): List<Restaurant> {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
             return@withContext restaurantsDao.getAll().map {
                 Restaurant(it.id, it.title, it.description, it.isFavorite)
             }
