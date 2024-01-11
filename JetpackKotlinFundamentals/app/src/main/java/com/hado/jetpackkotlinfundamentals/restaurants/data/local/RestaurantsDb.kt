@@ -12,26 +12,28 @@ import androidx.room.RoomDatabase
 )
 abstract class RestaurantsDb : RoomDatabase() {
     abstract val dao: RestaurantsDao
-    companion object {
-        @Volatile
-        private var INSTANCE: RestaurantsDao? = null
-        fun getDaoInstance(context: Context): RestaurantsDao {
-            synchronized(this) {
-                var instance = INSTANCE
-                if (instance == null) {
-                    instance = buildDatabase(context).dao
-                    INSTANCE = instance
-                }
-                return instance
-            }
-        }
-        private fun buildDatabase(context: Context):
-                RestaurantsDb = Room.databaseBuilder(
-                    context.applicationContext,
-                    RestaurantsDb::class.java,
-                    "restaurants_database"
-                )
-            .fallbackToDestructiveMigration()
-            .build()
-    }
+    // No need this companion object because we serve it from RestaurantsModule
+    // By using Dagger Hilt DI
+//    companion object {
+//        @Volatile
+//        private var INSTANCE: RestaurantsDao? = null
+//        fun getDaoInstance(context: Context): RestaurantsDao {
+//            synchronized(this) {
+//                var instance = INSTANCE
+//                if (instance == null) {
+//                    instance = buildDatabase(context).dao
+//                    INSTANCE = instance
+//                }
+//                return instance
+//            }
+//        }
+//        private fun buildDatabase(context: Context):
+//                RestaurantsDb = Room.databaseBuilder(
+//                    context.applicationContext,
+//                    RestaurantsDb::class.java,
+//                    "restaurants_database"
+//                )
+//            .fallbackToDestructiveMigration()
+//            .build()
+//    }
 }

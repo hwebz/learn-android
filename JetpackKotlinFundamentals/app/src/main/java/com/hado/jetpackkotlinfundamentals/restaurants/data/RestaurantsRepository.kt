@@ -4,6 +4,7 @@ import com.hado.jetpackkotlinfundamentals.restaurants.domain.Restaurant
 import com.hado.jetpackkotlinfundamentals.RestaurantsApplication
 import com.hado.jetpackkotlinfundamentals.restaurants.data.local.LocalRestaurant
 import com.hado.jetpackkotlinfundamentals.restaurants.data.local.PartialLocalRestaurant
+import com.hado.jetpackkotlinfundamentals.restaurants.data.local.RestaurantsDao
 import com.hado.jetpackkotlinfundamentals.restaurants.data.local.RestaurantsDb
 import com.hado.jetpackkotlinfundamentals.restaurants.data.remote.RestaurantsApiService
 import kotlinx.coroutines.Dispatchers
@@ -14,14 +15,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 import java.net.ConnectException
 import java.net.UnknownHostException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RestaurantsRepository {
-    private var restInterface: RestaurantsApiService = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://kotlinrestaurants-1d5a6-default-rtdb.asia-southeast1.firebasedatabase.app/")
-        .build()
-        .create(RestaurantsApiService::class.java)
-    private var restaurantsDao = RestaurantsDb.getDaoInstance(RestaurantsApplication.getAppContext())
+@Singleton
+class RestaurantsRepository @Inject constructor(
+    private val restInterface: RestaurantsApiService,
+    private val restaurantsDao: RestaurantsDao
+) {
+//    private var restInterface: RestaurantsApiService = Retrofit.Builder()
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .baseUrl("https://kotlinrestaurants-1d5a6-default-rtdb.asia-southeast1.firebasedatabase.app/")
+//        .build()
+//        .create(RestaurantsApiService::class.java)
+//    private var restaurantsDao = RestaurantsDb.getDaoInstance(RestaurantsApplication.getAppContext())
 
     private suspend fun refreshCache() {
         val remoteRestaurants = restInterface.getRestaurants()

@@ -8,20 +8,26 @@ import androidx.lifecycle.viewModelScope
 import com.hado.jetpackkotlinfundamentals.restaurants.data.RestaurantsRepository
 import com.hado.jetpackkotlinfundamentals.restaurants.domain.GetInitialRestaurantsUseCase
 import com.hado.jetpackkotlinfundamentals.restaurants.domain.ToggleRestaurantUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 // The reason we need SavedStateHandle is when app running in background
 // but system will kill our process to save the memory
 // so all of our favorite restaurants are being cleared, we need to store it
 //class RestaurantsViewModel(private val stateHandle: SavedStateHandle): ViewModel() {
-class RestaurantsViewModel(private val stateHandle: SavedStateHandle): ViewModel() {
-    private val respository = RestaurantsRepository()
-    private val getInitialRestaurantsUseCase = GetInitialRestaurantsUseCase()
-    private val toggleRestaurantsUseCase = ToggleRestaurantUseCase()
+@HiltViewModel
+class RestaurantsViewModel @Inject constructor(
+    private val getInitialRestaurantsUseCase: GetInitialRestaurantsUseCase,
+    private val toggleRestaurantsUseCase: ToggleRestaurantUseCase
+): ViewModel() {
+//    private val respository = RestaurantsRepository()
+//    private val getInitialRestaurantsUseCase = GetInitialRestaurantsUseCase()
+//    private val toggleRestaurantsUseCase = ToggleRestaurantUseCase()
 //    private var restInterface: RestaurantsApiService
 //    private var restaurantsDao = RestaurantsDb.getDaoInstance(RestaurantsApplication.getAppContext())
 //    val state = mutableStateOf(dummyRestaurants.restoreSelections())

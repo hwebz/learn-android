@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -16,7 +17,10 @@ import com.hado.jetpackkotlinfundamentals.restaurants.presentation.details.Resta
 import com.hado.jetpackkotlinfundamentals.restaurants.presentation.list.RestaurantScreen
 import com.hado.jetpackkotlinfundamentals.restaurants.presentation.list.RestaurantsViewModel
 import com.hado.jetpackkotlinfundamentals.ui.theme.JetpackKotlinFundamentalsTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+// Restrict the lifetime of an application to Activity level
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +42,7 @@ private fun RestaurantApp() {
         composable(
             route = "restaurants"
         ) {
-            var viewModel: RestaurantsViewModel = viewModel()
+            var viewModel: RestaurantsViewModel = hiltViewModel()
             RestaurantScreen(
                 state = viewModel.state.value,
                 onItemClick = { id ->
