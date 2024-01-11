@@ -100,7 +100,7 @@ Video Tutorial: [UI Lover Youtube](https://www.youtube.com/watch?v=TBTZ2jywr0I)
     <img src="./screenshots/healthy-store-3.png" width="200" />
 </div>
 
-### Ecommerce Healthy Store App
+### Restaurants App (Retrofit, Dagger Hilt, Room)
 Books: [Kickstart Modern Android Development with Jetpack and Kotlin](https://www.packtpub.com/product/kickstart-modern-android-development-with-jetpack-and-kotlin/9781801811071)
 SourceCode: [Kickstart Modern Android Development with Jetpack and Kotlin](https://github.com/PacktPublishing/Kickstart-Modern-Android-Development-with-Jetpack-and-Kotlin)
 > /https://github.com/PacktPublishing/Kickstart-Modern-Android-Development-with-Jetpack-and-Kotlin
@@ -112,3 +112,15 @@ SourceCode: [Kickstart Modern Android Development with Jetpack and Kotlin](https
     <img src="./screenshots/restaurants-app-2.png" width="200" />
 </div>
 
+### Github Repositories Infinite List Scrolling
+Books: [Kickstart Modern Android Development with Jetpack and Kotlin](https://www.packtpub.com/product/kickstart-modern-android-development-with-jetpack-and-kotlin/9781801811071)
+SourceCode: [Kickstart Modern Android Development with Jetpack and Kotlin](https://github.com/PacktPublishing/Kickstart-Modern-Android-Development-with-Jetpack-and-Kotlin)
+> /https://github.com/PacktPublishing/Kickstart-Modern-Android-Development-with-Jetpack-and-Kotlin
+
+#### Screenshots
+<div class="flex">
+    <img src="./screenshots/github-infinite-scrolling-4.png" width="200" />
+    <img src="./screenshots/github-infinite-scrolling-3.png" width="200" />
+    <img src="./screenshots/github-infinite-scrolling-2.png" width="200" />
+    <img src="./screenshots/github-infinite-scrolling.png" width="200" />
+</div>
