@@ -17,22 +17,34 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 
 @Composable
-fun RepositoriesScreen(repos: LazyPagingItems<Repository>) {
+fun RepositoriesScreen(
+    repos: LazyPagingItems<Repository>,
+    timerText: String,
+    getTimer: () -> CustomCountdown,
+    onPauseTimer: () -> Unit
+) {
     LazyColumn(contentPadding = PaddingValues(
         vertical = 8.dp,
         horizontal = 8.dp
     )) {
+        item {
+            CountdownItem(timerText = timerText, getTimer, onPauseTimer)
+        }
+        
         items(count = repos.itemCount) { index ->
             val repo = repos[index]
             if (repo != null) {
@@ -160,4 +172,25 @@ fun ErrorItem(
             Text(text = "Try again")
         }
     }
+}
+
+@Composable
+fun CountdownItem(
+    timerText: String,
+    getTimer: () -> CustomCountdown,
+    onPauseTimer: () -> Unit
+) {
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    val lifecycle = lifecycleOwner.lifecycle
+    DisposableEffect(key1 = lifecycleOwner) {
+        // This one gonna be triggered automatically when CountdownItem is on resume
+        lifecycle.addObserver(getTimer())
+        // When CountdownItem is out of screen
+        onDispose {
+            onPauseTimer()
+            lifecycle.removeObserver(getTimer())
+        }
+    }
+
+    Text(timerText)
 }

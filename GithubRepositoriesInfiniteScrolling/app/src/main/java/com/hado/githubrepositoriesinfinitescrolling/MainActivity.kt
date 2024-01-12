@@ -23,7 +23,15 @@ class MainActivity : ComponentActivity() {
                 val viewModel: RepositoriesViewModel = viewModel()
                 val reposFlow = viewModel.repositories
                 val lazyRepoItems: LazyPagingItems<Repository> = reposFlow.collectAsLazyPagingItems()
-                RepositoriesScreen(repos = lazyRepoItems)
+
+                val timerText = viewModel.timerState.value
+
+                RepositoriesScreen(
+                    repos = lazyRepoItems,
+                    timerText = timerText,
+                    getTimer = { viewModel.timer },
+                    onPauseTimer = { viewModel.timer.stop() }
+                )
             }
         }
     }
